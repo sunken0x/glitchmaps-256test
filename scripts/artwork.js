@@ -156,7 +156,7 @@ class GlitchWave {
     }
 
     createBackgroundPlane() {
-        const distance = Math.abs(this.camera.position.z - (-10));
+        const distance = Math.abs(this.camera.position.z - (-50));
         const vFOV = (75 * Math.PI) / 180;
         const visibleHeight = 2 * Math.tan(vFOV / 2) * distance;
         const visibleWidth = visibleHeight * this.camera.aspect;
@@ -164,7 +164,7 @@ class GlitchWave {
         const bgGeometry = new THREE.PlaneGeometry(visibleWidth * 1.5, visibleHeight * 1.5);
         const bgMaterial = new THREE.MeshBasicMaterial({ color: this.colorScheme.bgColor });
         this.bgPlane = new THREE.Mesh(bgGeometry, bgMaterial);
-        this.bgPlane.position.z = -10;
+        this.bgPlane.position.z = -50;
         this.scene.add(this.bgPlane);
     }
 
@@ -343,7 +343,7 @@ class GlitchWave {
         this.renderer.setSize(this.w / dp, this.h / dp);
         
         if (this.bgPlane) {
-            const distance = Math.abs(this.camera.position.z - (-10));
+            const distance = Math.abs(this.camera.position.z - (-50));
             const vFOV = (75 * Math.PI) / 180;
             const visibleHeight = 2 * Math.tan(vFOV / 2) * distance;
             const visibleWidth = visibleHeight * this.camera.aspect;
