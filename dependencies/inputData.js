@@ -1,16 +1,12 @@
 // Avoid modifying this file 
 // It emulates data coming from chain and injects the artwork.js file
-
 let search = new URLSearchParams(window.location.search);
-
 let genHash = (size) =>
     [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
 let hash = search.get('hash') || "0x" + genHash(64);
-
 // Generate a random Ethereum address
 let genRandomAddress = () =>
     "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
-
 // Additional fields with default values
 let ownerOfPiece = search.get('ownerOfPiece') || genRandomAddress();
 let blockHash = search.get('blockHash') || "0x" + genHash(64);
@@ -23,7 +19,6 @@ let blockTimestamp = search.get('blockTimestamp') || Math.floor(Date.now() / 100
 let blockBaseFee = search.get('blockBaseFee') || Math.floor(Math.random() * 1e9); // Example: up to 1 Gwei
 let blockCoinbase = search.get('blockCoinbase') || genRandomAddress();
 let ethBalanceOfOwner = search.get('ethBalanceOfOwner') || Math.floor(Math.random() * 1e18); // Up to 1 ETH
-
 // Main input data
 let inputData = {
     'tokenId': tokenId,
@@ -34,21 +29,17 @@ let inputData = {
     'prevrandao': prevrandao,
     'totalSupply': totalSupply,
     'balanceOfOwner': balanceOfOwner,
-
     // Including the new fields
     'blockTimestamp': blockTimestamp,
     'blockBaseFee': blockBaseFee,
     'blockCoinbase': blockCoinbase,
     'ethBalanceOfOwner': ethBalanceOfOwner
 };
-
 (async function () {
     // Fetch traits data from the local JSON file
-    const response = await fetch('../scripts/traits.json');
+    const response = await fetch('./scripts/traits.json');
     const traitsData = await response.json();
-
     const traits = traitsData;
-
     // Generate random numbers (as on chain)
     function generateRandomNumbers(seed, timesToCall) {
         let randNumbers = [];
@@ -60,9 +51,7 @@ let inputData = {
         }
         return randNumbers;
     }
-
     let randNumbers = generateRandomNumbers(hash, Object.keys(traits).length);
-
     // Add traits to inputData based on generated random numbers
     for (let j = 0; j < Object.keys(traits).length; j++) {
         let r = randNumbers[j];
@@ -74,13 +63,10 @@ let inputData = {
             }
         }
     }
-
     // Log inputData for easier debugging
     console.log(inputData);
-
     // Load artwork.js after inputData.js has finished executing
     const artworkScript = document.createElement('script');
-    artworkScript.src = window.p5 ? '../scripts/artwork-p5.js' : '../scripts/artwork.js';
+    artworkScript.src = window.p5 ? './scripts/artwork-p5.js' : './scripts/artwork.js';
     document.body.appendChild(artworkScript);
 })();
-
