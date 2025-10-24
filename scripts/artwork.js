@@ -249,14 +249,13 @@ class GlitchWave {
         
         let getColorForPoint;
         
-        if (TRAITS.flashingMode === 'Random Glitch') {
+        if (TRAITS.flashingMode === 'Slow Pulse') {
+            // Smooth slow wave between colors
+            const slowWave = (Math.sin(time * this.flashSpeed * 0.3) + 1) / 2; // 0 to 1
             getColorForPoint = () => {
-                const useColor2 = Math.random() > 0.5;
-                const color = useColor2 ? new THREE.Color(this.colorScheme.color2) : new THREE.Color(this.colorScheme.color1);
-                if (Math.random() > 0.7) {
-                    flickerOpacity = 0.5;
-                }
-                return color;
+                const color1 = new THREE.Color(this.colorScheme.color1);
+                const color2 = new THREE.Color(this.colorScheme.color2);
+                return color1.lerp(color2, slowWave);
             };
         } else {
             const globalFlash = Math.sin(time * this.flashSpeed) > 0;
